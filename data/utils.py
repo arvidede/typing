@@ -2,6 +2,7 @@ from os import listdir
 import re
 import unicodedata
 import json
+import numpy as np
 
 
 def has_numbers(string):
@@ -17,6 +18,8 @@ with open('karolinerna.txt', encoding='utf-8') as f:
             for sentence in text if not has_numbers(sentence)
             and sentence != '\n'
             and len(sentence.split(' ')) > 10]
+    text = [
+        sentence.strip() for paragraph in text for sentence in paragraph.split('.') if sentence]
 
-    with open('text.sv.js', 'w+') as out:
-        out.write('export const data = ' + json.dumps(text))
+    with open('text.sv.js', 'w+', encoding='utf-8') as out:
+        json.dump(text, out, ensure_ascii=False)
